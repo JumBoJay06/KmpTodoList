@@ -1,0 +1,104 @@
+*.iml
+.kotlin
+.gradle
+**/build/
+xcuserdata
+!src/**/build/
+local.properties
+.idea
+.DS_Store
+captures
+.externalNativeBuild
+.cxx
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata/
+!*.xcodeproj/project.xcworkspace/
+!*.xcworkspace/contents.xcworkspacedata
+**/xcshareddata/WorkspaceSettings.xcsettings
+
+# ===============================================
+#  通用忽略規則 (General Ignores)
+# ===============================================
+*.DS_Store
+*.orig
+*~
+*.swp
+*.bak
+*.tmp
+*.err
+*.log
+
+# ===============================================
+#  Gradle
+# ===============================================
+.gradle/
+build/
+!build/generated/
+gradle-app.setting
+gradle.properties
+gradlew
+gradlew.bat
+local.properties
+
+# ===============================================
+#  IntelliJ / Android Studio
+# ===============================================
+.idea/
+*.iml
+*.ipr
+*.iws
+.idea/caches/
+.idea/compiler.xml
+.idea/gradle.xml
+.idea/jarRepositories.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
+.idea/workspace.xml
+.idea/assetWizardSettings.xml
+out/
+
+# ===============================================
+#  Android 特定檔案 (Android Specific)
+# ===============================================
+app/build/
+app/release/
+app/debug/
+*.apk
+*.aab
+captures/
+.cxx/
+
+# ===============================================
+#  iOS 特定檔案 (iOS Specific)
+# ===============================================
+# 由 a KMP/Xcode 專案產生
+iosApp/build/
+iosApp/DerivedData/
+iosApp/*.xcworkspace
+iosApp/.swiftpm/
+*.hmap
+*.ipa
+
+# CocoaPods (如果使用)
+Pods/
+
+# ===============================================
+#  桌面應用程式特定檔案 (Desktop Specific)
+# ===============================================
+compose-desktop/build/
+*.jar
+
+# ===============================================
+#  Web 特定檔案 (Web Specific)
+# ===============================================
+jsApp/build/
+jsApp/.gradle/
+
+# ===============================================
+#  簽署金鑰 (Signing Keys) - 非常重要！
+# ===============================================
+# 請勿將您的簽署金鑰上傳到版本控制系統！
+*.jks
+*.keystore
