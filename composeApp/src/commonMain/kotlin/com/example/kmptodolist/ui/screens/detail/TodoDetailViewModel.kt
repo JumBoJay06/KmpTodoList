@@ -2,26 +2,21 @@ package com.example.kmptodolist.ui.screens.detail
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
-import com.example.kmptodolist.db.Todo
 import com.example.kmptodolist.db.TodoQueries
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-data class TodoDetailUiState(
-    val todo: Todo? = null,
-    val editedTitle: String = "",
-    val editedContent: String = "" // 新增 content 的狀態
-)
-
 class TodoDetailViewModel(
     private val todoId: Long,
     private val todoQueries: TodoQueries
 ) : ScreenModel {
 
-    private val _uiState = MutableStateFlow(TodoDetailUiState())
-    val uiState = _uiState.asStateFlow()
+    private val _editedTitle = MutableStateFlow("")
+    val editedTitle = _editedTitle.asStateFlow()
+    private val _editedContent = MutableStateFlow("")
+    val editedContent = _editedContent.asStateFlow()
 
     init {
         loadTodo()
@@ -30,32 +25,27 @@ class TodoDetailViewModel(
     private fun loadTodo() {
         screenModelScope.launch {
             val todo = todoQueries.selectById(todoId).executeAsOneOrNull()
-            _uiState.update {
-                it.copy(
-                    todo = todo,
-                    editedTitle = todo?.title ?: "",
-                    editedContent = todo?.content ?: "" // 讀取 content，處理 null 的情況
-                )
-            }
+            _editedTitle.update { todo?.title ?: "" }
+            _editedContent.update { todo?.content ?: "" } // 初始化 content 狀態
         }
     }
 
     fun onTitleChange(newTitle: String) {
-        _uiState.update { it.copy(editedTitle = newTitle) }
+        _editedTitle.update { newTitle }
     }
 
     // 新增 content 的處理函式
     fun onContentChange(newContent: String) {
-        _uiState.update { it.copy(editedContent = newContent) }
+        _editedContent.update { newContent }
     }
 
     fun saveTodo() {
         screenModelScope.launch {
-            val state = _uiState.value
-            if (state.editedTitle.isNotBlank()) {
+            val title = _editedTitle.value
+            if (title.isNotBlank()) {
                 todoQueries.updateTodo(
-                    title = state.editedTitle,
-                    content = state.editedContent,
+                    title = _editedTitle.value,
+                    content = _editedContent.value,
                     id = todoId
                 )
             }

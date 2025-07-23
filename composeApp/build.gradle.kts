@@ -14,6 +14,8 @@ sqldelight {
     databases {
         create("AppDatabase") {
             packageName.set("com.example.kmptodolist.db")
+            verifyMigrations.set(true)
+            version = 2
         }
     }
 }
@@ -59,6 +61,8 @@ kotlin {
             api(libs.voyager.navigator)
             api(libs.voyager.screenmodel)
             api(libs.voyager.koin)
+
+            api(libs.sqldelight.coroutines.extensions)
 
             // Koin
             api(libs.koin.core)

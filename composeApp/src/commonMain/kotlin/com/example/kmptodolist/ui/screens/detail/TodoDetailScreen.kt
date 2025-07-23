@@ -24,7 +24,8 @@ data class TodoDetailScreen(val todoId: Long) : Screen {
         val viewModel = koinScreenModel<TodoDetailViewModel> {
             parametersOf(todoId)
         }
-        val uiState by viewModel.uiState.collectAsState()
+        val editedTitle by viewModel.editedTitle.collectAsState()
+        val editedContent by viewModel.editedContent.collectAsState()
 
         Scaffold(
             topBar = {
@@ -41,7 +42,7 @@ data class TodoDetailScreen(val todoId: Long) : Screen {
                 )
             }
         ) { paddingValues ->
-            if (uiState.todo == null) {
+            if (editedTitle.isEmpty()) {
                 Box(
                     modifier = Modifier.fillMaxSize().padding(paddingValues),
                     contentAlignment = Alignment.Center
@@ -56,7 +57,7 @@ data class TodoDetailScreen(val todoId: Long) : Screen {
                         .padding(16.dp)
                 ) {
                     OutlinedTextField(
-                        value = uiState.editedTitle,
+                        value = editedTitle,
                         onValueChange = viewModel::onTitleChange,
                         label = { Text("標題") },
                         modifier = Modifier.fillMaxWidth()
@@ -65,7 +66,7 @@ data class TodoDetailScreen(val todoId: Long) : Screen {
 
                     // 新增 Content 輸入框
                     OutlinedTextField(
-                        value = uiState.editedContent,
+                        value = editedContent,
                         onValueChange = viewModel::onContentChange,
                         label = { Text("內容") },
                         modifier = Modifier.fillMaxWidth().weight(1f) // 讓它填滿剩餘空間

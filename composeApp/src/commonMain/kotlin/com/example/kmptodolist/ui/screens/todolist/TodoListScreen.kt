@@ -29,14 +29,10 @@ object TodoListScreen : Screen {
     @Composable
     override fun Content() {
         val viewModel = koinScreenModel<TodoListViewModel>()
-        val uiState by viewModel.uiState.collectAsState()
+        val newTodoText by viewModel.newTodoText.collectAsState()
+        val todos by viewModel.todos.collectAsState()
         val navigator = LocalNavigator.currentOrThrow
         var showDeleteDialog by remember { mutableStateOf<Long?>(null) } // 狀態：要刪除的
-
-        // 監聽畫面的生命週期，當畫面重新出現時刷新列表
-        LaunchedEffect(Unit) {
-            viewModel.loadTodos()
-        }
 
         // 刪除確認對話框
         if (showDeleteDialog != null) {
@@ -79,7 +75,7 @@ object TodoListScreen : Screen {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     OutlinedTextField(
-                        value = uiState.newTodoText,
+                        value = newTodoText,
                         onValueChange = viewModel::onNewTodoTextChange,
                         label = { Text("新的待辦事項") },
                         modifier = Modifier.weight(1f)
@@ -95,7 +91,7 @@ object TodoListScreen : Screen {
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                if (uiState.todos.isEmpty()) {
+                if (todos.isEmpty()) {
                     // 如果沒有待辦事項，顯示提示
                     Box(
                         modifier = Modifier.fillMaxSize(),
@@ -106,7 +102,7 @@ object TodoListScreen : Screen {
                 } else {
                     // 待辦事項列表
                     LazyColumn(modifier = Modifier.fillMaxSize()) {
-                        items(uiState.todos, key = { it.id }) { todo -> // 使用 key 提升性能
+                        items(todos, key = { it.id }) { todo -> // 使用 key 提升性能
                             TodoItemRow(
                                 todo = todo,
                                 onToggle = viewModel::toggleTodoCompletion,
@@ -138,7 +134,7 @@ fun TodoItemRow(
             .padding(vertical = 4.dp),
         elevation = CardDefaults.cardElevation(4.dp),
         colors = CardDefaults.cardColors().copy(
-            containerColor = if (todo.is_completed == 1L) Color.LightGray else Color.White
+            containerColor = if (todo.is_completed) Color.LightGray else Color.White
         ),
         onClick = onClick
     ) {
@@ -149,14 +145,14 @@ fun TodoItemRow(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Checkbox(
-                checked = todo.is_completed == 1L,
+                checked = todo.is_completed,
                 onCheckedChange = { onToggle(todo.id, it) }
             )
             Spacer(modifier = Modifier.width(8.dp))
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = todo.title,
-                    style = if (todo.is_completed == 1L) {
+                    style = if (todo.is_completed) {
                         MaterialTheme.typography.bodyLarge.copy(textDecoration = TextDecoration.LineThrough)
                     } else {
                         MaterialTheme.typography.bodyLarge
@@ -166,7 +162,7 @@ fun TodoItemRow(
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
                         text = todo.content, // 處理可能為 null 的 content
-                        style = if (todo.is_completed == 1L) {
+                        style = if (todo.is_completed) {
                             MaterialTheme.typography.bodyMedium.copy(textDecoration = TextDecoration.LineThrough)
                         } else {
                             MaterialTheme.typography.bodyMedium
