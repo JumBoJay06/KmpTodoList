@@ -46,7 +46,7 @@
 │       │           ├── MainActivity.kt # Android 應用的主要 Activity，是應用的進入點
 │       │           ├── TodoListApp.kt # Android 應用的 Application 類別，用於初始化 Koin
 │       │           ├── data/local/DatabaseDriverFactory.kt # Android 平台的 SQLDelight 資料庫驅動實作
-│       │           └── di/PlatformModule.kt # Android 平台的 Koin 模組，提供平台特定的依賴
+│       │           └── di/KoinAndroid.kt # Android 平台的 Koin 模組，提供平台特定的依賴
 │       ├── commonMain
 │       │   ├── kotlin
 │       │   │   └── com/example/kmptodolist
