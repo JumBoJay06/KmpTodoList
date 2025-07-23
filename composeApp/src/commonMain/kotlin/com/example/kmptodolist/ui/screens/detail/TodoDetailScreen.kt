@@ -77,7 +77,7 @@ data class TodoDetailScreen(val todoId: Long) : Screen {
                             viewModel.saveTodo()
                             navigator.pop()
                         },
-                        modifier = Modifier.align(Alignment.End)
+                        modifier = Modifier.fillMaxWidth()
                     ) {
                         Text("儲存")
                     }
