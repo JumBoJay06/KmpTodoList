@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * TodoListViewModel 負責處理待辦事項列表的業務邏輯。
@@ -47,9 +48,11 @@ class TodoListViewModel(
      */
     fun addTodo() {
         if (_newTodoText.value.isBlank()) return
-        screenModelScope.launch {
+        screenModelScope.launch(Dispatchers.IO) {
             todoQueries.insert(_newTodoText.value)
-            _newTodoText.update { "" }
+            withContext(Dispatchers.Main) {
+                _newTodoText.update { "" }
+            }
         }
     }
 
@@ -59,7 +62,7 @@ class TodoListViewModel(
      * @param isCompleted 是否完成。
      */
     fun toggleTodoCompletion(id: Long, isCompleted: Boolean) {
-        screenModelScope.launch {
+        screenModelScope.launch(Dispatchers.IO) {
             todoQueries.updateCompletion(isCompleted, id)
         }
     }
@@ -69,7 +72,7 @@ class TodoListViewModel(
      * @param id 待辦事項的 ID。
      */
     fun deleteTodo(id: Long) {
-        screenModelScope.launch {
+        screenModelScope.launch(Dispatchers.IO) {
             todoQueries.deleteById(id)
         }
     }
