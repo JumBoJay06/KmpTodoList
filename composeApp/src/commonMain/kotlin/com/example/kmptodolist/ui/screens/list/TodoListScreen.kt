@@ -1,7 +1,5 @@
-package com.example.kmptodolist.ui.screens.todolist
+package com.example.kmptodolist.ui.screens.list
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -22,17 +20,25 @@ import com.example.kmptodolist.db.Todo
 import com.example.kmptodolist.ui.screens.detail.TodoDetailScreen
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
-object TodoListScreen : Screen {
+/**
+ * 待辦事項列表畫面。
+ */
+class TodoListScreen : Screen {
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Preview
     @Composable
     override fun Content() {
+        // 取得 ViewModel
         val viewModel = koinScreenModel<TodoListViewModel>()
+        // 觀察新待辦事項文字的變化
         val newTodoText by viewModel.newTodoText.collectAsState()
+        // 觀察待辦事項列表的變化
         val todos by viewModel.todos.collectAsState()
+        // 取得 Voyager 導航器
         val navigator = LocalNavigator.currentOrThrow
-        var showDeleteDialog by remember { mutableStateOf<Long?>(null) } // 狀態：要刪除的
+        // 狀態：要刪除的 id
+        var showDeleteDialog by remember { mutableStateOf<Long?>(null) }
 
         // 刪除確認對話框
         if (showDeleteDialog != null) {
@@ -107,7 +113,7 @@ object TodoListScreen : Screen {
                                 todo = todo,
                                 onToggle = viewModel::toggleTodoCompletion,
                                 onDelete = { id ->
-                                    showDeleteDialog = id // 點擊刪除時，設置要刪除的
+                                    showDeleteDialog = id // 點擊刪除時，設置要刪除的 id
                                 },
                                 onClick = {
                                     navigator.push(TodoDetailScreen(todo.id))
@@ -121,6 +127,13 @@ object TodoListScreen : Screen {
     }
 }
 
+/**
+ * 待辦事項列表中的單一項目。
+ * @param todo 待辦事項。
+ * @param onToggle 切換完成狀態的回呼。
+ * @param onDelete 刪除的回呼。
+ * @param onClick 點擊的回呼。
+ */
 @Composable
 fun TodoItemRow(
     todo: Todo,
@@ -158,10 +171,11 @@ fun TodoItemRow(
                         MaterialTheme.typography.bodyLarge
                     }
                 )
+                // 處理可能為 null 的 content
                 if (todo.content != null) {
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
-                        text = todo.content, // 處理可能為 null 的 content
+                        text = todo.content,
                         style = if (todo.is_completed) {
                             MaterialTheme.typography.bodyMedium.copy(textDecoration = TextDecoration.LineThrough)
                         } else {

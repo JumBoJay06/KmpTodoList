@@ -21,10 +21,9 @@ sqldelight {
 
 kotlin {
     androidTarget {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "11" // Or your desired JVM version
-            }
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_11)
         }
     }
     
@@ -44,7 +43,7 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
-            api(libs.sqldelight.driver.android)
+            implementation(libs.sqldelight.driver.android)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -57,19 +56,19 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtimeCompose)
             implementation(compose.materialIconsExtended)
             // Voyager
-            api(libs.voyager.navigator)
-            api(libs.voyager.screenmodel)
-            api(libs.voyager.koin)
+            implementation(libs.voyager.navigator)
+            implementation(libs.voyager.screenmodel)
+            implementation(libs.voyager.koin)
 
-            api(libs.sqldelight.coroutines.extensions)
+            implementation(libs.sqldelight.coroutines.extensions)
 
             // Koin
-            api(libs.koin.core)
-            api(libs.koin.compose)
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose)
         }
 
         iosMain.dependencies {
-            api(libs.sqldelight.driver.native)
+            implementation(libs.sqldelight.driver.native)
         }
 
         commonTest.dependencies {

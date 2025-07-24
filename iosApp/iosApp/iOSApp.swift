@@ -4,7 +4,7 @@ import ComposeApp
 @main
 struct iOSApp: App {
 
-    // 2. 在 App 的初始化方法中啟動 Koin
+    //  在 App 的初始化方法中啟動 Koin
     init() {
         KoinIOSKt.doInitKoinIos()
     }

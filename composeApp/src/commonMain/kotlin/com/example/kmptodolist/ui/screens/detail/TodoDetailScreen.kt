@@ -14,17 +14,24 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import org.koin.core.parameter.parametersOf
 
-data class TodoDetailScreen(val todoId: Long) : Screen {
+/**
+ * 待辦事項詳細資訊畫面。
+ * @param todoId 待辦事項的 ID。
+ */
+class TodoDetailScreen(private val todoId: Long) : Screen {
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
+        // 取得 Voyager 導航器
         val navigator = LocalNavigator.currentOrThrow
         // 使用 Koin 傳遞 todoId 給 ViewModel
         val viewModel = koinScreenModel<TodoDetailViewModel> {
             parametersOf(todoId)
         }
+        // 觀察編輯後的標題的變化
         val editedTitle by viewModel.editedTitle.collectAsState()
+        // 觀察編輯後的內容的變化
         val editedContent by viewModel.editedContent.collectAsState()
 
         Scaffold(
@@ -43,6 +50,7 @@ data class TodoDetailScreen(val todoId: Long) : Screen {
             }
         ) { paddingValues ->
             if (editedTitle.isEmpty()) {
+                // 如果標題為空，顯示載入中
                 Box(
                     modifier = Modifier.fillMaxSize().padding(paddingValues),
                     contentAlignment = Alignment.Center
@@ -56,6 +64,7 @@ data class TodoDetailScreen(val todoId: Long) : Screen {
                         .padding(paddingValues)
                         .padding(16.dp)
                 ) {
+                    // 標題輸入框
                     OutlinedTextField(
                         value = editedTitle,
                         onValueChange = viewModel::onTitleChange,
@@ -64,7 +73,7 @@ data class TodoDetailScreen(val todoId: Long) : Screen {
                     )
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    // 新增 Content 輸入框
+                    // 內容輸入框
                     OutlinedTextField(
                         value = editedContent,
                         onValueChange = viewModel::onContentChange,
@@ -73,6 +82,7 @@ data class TodoDetailScreen(val todoId: Long) : Screen {
                     )
 
                     Spacer(modifier = Modifier.height(16.dp))
+                    // 儲存按鈕
                     Button(
                         onClick = {
                             viewModel.saveTodo()

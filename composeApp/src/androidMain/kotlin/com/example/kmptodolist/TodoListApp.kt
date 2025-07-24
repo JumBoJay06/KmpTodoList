@@ -6,6 +6,10 @@ import com.example.kmptodolist.di.initKoin
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 
+/**
+ * Android 應用的 Application 類別。
+ * 須在 AndroidManifest.xml 中註冊，application 內的 name。
+ */
 class TodoListApp : Application() {
     override fun onCreate() {
         super.onCreate()

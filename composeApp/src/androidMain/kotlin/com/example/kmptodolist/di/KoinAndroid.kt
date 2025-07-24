@@ -9,6 +9,6 @@ import org.koin.dsl.module
  */
 val androidModule: Module = module {
     // 在這裡我們提供 DatabaseDriverFactory 的具體實作。
-    // Android 的 SQLDelight driver 通常需要 Context，所以我們使用 get() 來從 Koin 取得它。
+    // Android 的 SQLDelight driver 需要 Context，所以我們使用 get() 來從 Koin 取得它。
     single { DatabaseDriverFactory(get()) }
 }

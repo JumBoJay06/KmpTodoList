@@ -1,35 +1,34 @@
 package com.example.kmptodolist.di
 
-import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.kmptodolist.data.local.DatabaseDriverFactory
 import com.example.kmptodolist.db.AppDatabase
 import com.example.kmptodolist.ui.screens.detail.TodoDetailViewModel
-import com.example.kmptodolist.ui.screens.todolist.TodoListViewModel
+import com.example.kmptodolist.ui.screens.list.TodoListViewModel
 import org.koin.core.KoinApplication
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
 
 /**
  * 這是通用的 Koin 模組，只包含所有平台共享的依賴。
- * 為了清楚起見，我將它從 appModule 更名為 commonModule。
  */
 val commonModule = module {
-    // DatabaseDriverFactory 是平台相關的，所以我們從這裡移除。
-    // 它將由每個平台的特定模組提供。
+    // DatabaseDriverFactory 是平台相關的，它將由每個平台的特定模組提供。
 
-    // AppDatabase 依賴於 DatabaseDriverFactory，Koin 會從平台模組中找到它。
+    // 提供 AppDatabase 的單例實例
     single { AppDatabase(get<DatabaseDriverFactory>().createDriver()) }
+    // 提供 AppDatabase.todoQueries 的單例實例
     single { get<AppDatabase>().todoQueries }
 
-    viewModelFactory {  }
-
+    // 提供 TodoListViewModel 的工廠實例
     factory { TodoListViewModel(get()) }
+    // 提供 TodoDetailViewModel 的工廠實例，並傳入 todoId
     factory { (todoId: Long) -> TodoDetailViewModel(todoId, get()) }
 }
 
 /**
- * initKoin 函數，使其接受一個配置區塊 (lambda)。
+ * 初始化 Koin，使其接受一個配置區塊 (lambda)。
  * 這讓我們可以在各個平台（例如 Android）啟動 Koin 時，傳入特定的配置。
+ * @param appDeclaration 用於平台特定配置的 lambda。
  */
 fun initKoin(appDeclaration: KoinApplication.() -> Unit) {
     startKoin {

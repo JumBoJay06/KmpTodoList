@@ -1,26 +1,37 @@
 import kotlin.Boolean;
 
+-- Todo資料表定義
 CREATE TABLE Todo (
+    -- 待辦事項的唯一ID，自動遞增
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    -- 待辦事項的標題，不允許為空
     title TEXT NOT NULL,
+    -- 待辦事項的詳細內容，可選
     content TEXT,
+    -- 待辦事項是否完成，使用布林值儲存，預設為未完成 (0)
     is_completed INTEGER AS Boolean NOT NULL DEFAULT 0
 );
 
+-- 查詢所有待辦事項，並以降序排列
 selectAll:
 SELECT * FROM Todo ORDER BY id DESC;
 
+-- 根據ID查詢單一待辦事項
 selectById:
 SELECT * FROM Todo WHERE id = ?;
 
+-- 插入新的待辦事項，僅需提供標題
 insert:
 INSERT INTO Todo(title) VALUES (?);
 
+-- 更新待辦事項的完成狀態
 updateCompletion:
 UPDATE Todo SET is_completed = ? WHERE id = ?;
 
+-- 更新待辦事項的標題和內容
 updateTodo:
 UPDATE Todo SET title = ?, content = ? WHERE id = ?;
 
+-- 根據ID刪除待辦事項
 deleteById:
 DELETE FROM Todo WHERE id = ?;
