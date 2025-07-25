@@ -18,6 +18,17 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.example.kmptodolist.db.Todo
 import com.example.kmptodolist.ui.screens.detail.TodoDetailScreen
+import kmptodolist.composeapp.generated.resources.Res
+import kmptodolist.composeapp.generated.resources.add_button
+import kmptodolist.composeapp.generated.resources.cancel_button
+import kmptodolist.composeapp.generated.resources.confirm_button
+import kmptodolist.composeapp.generated.resources.delete_dialog_text
+import kmptodolist.composeapp.generated.resources.delete_dialog_title
+import kmptodolist.composeapp.generated.resources.delete_todo_description
+import kmptodolist.composeapp.generated.resources.new_todo_placeholder
+import kmptodolist.composeapp.generated.resources.no_todos_text
+import kmptodolist.composeapp.generated.resources.todo_list_title
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 /**
@@ -44,8 +55,8 @@ class TodoListScreen : Screen {
         if (showDeleteDialog != null) {
             AlertDialog(
                 onDismissRequest = { showDeleteDialog = null },
-                title = { Text("確認刪除") },
-                text = { Text("你確定要刪除這個待辦事項嗎？") },
+                title = { Text(stringResource(Res.string.delete_dialog_title)) },
+                text = { Text(stringResource(Res.string.delete_dialog_text)) },
                 confirmButton = {
                     Button(
                         onClick = {
@@ -53,12 +64,12 @@ class TodoListScreen : Screen {
                             showDeleteDialog = null
                         }
                     ) {
-                        Text("確認")
+                        Text(stringResource(Res.string.confirm_button))
                     }
                 },
                 dismissButton = {
                     Button(onClick = { showDeleteDialog = null }) {
-                        Text("取消")
+                        Text(stringResource(Res.string.cancel_button))
                     }
                 }
             )
@@ -66,7 +77,7 @@ class TodoListScreen : Screen {
 
         Scaffold(
             topBar = {
-                TopAppBar(title = { Text("待辦事項列表") })
+                TopAppBar(title = { Text(stringResource(Res.string.todo_list_title)) })
             }
         ) { paddingValues ->
             Column(
@@ -83,12 +94,12 @@ class TodoListScreen : Screen {
                     OutlinedTextField(
                         value = newTodoText,
                         onValueChange = viewModel::onNewTodoTextChange,
-                        label = { Text("新的待辦事項") },
+                        label = { Text(stringResource(Res.string.new_todo_placeholder)) },
                         modifier = Modifier.weight(1f)
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Button(onClick = viewModel::addTodo) {
-                        Text("新增")
+                        Text(stringResource(Res.string.add_button))
                     }
                 }
 
@@ -103,7 +114,7 @@ class TodoListScreen : Screen {
                         modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center
                     ) {
-                        Text("目前沒有待辦事項", style = MaterialTheme.typography.bodyLarge)
+                        Text(stringResource(Res.string.no_todos_text), style = MaterialTheme.typography.bodyLarge)
                     }
                 } else {
                     // 待辦事項列表
@@ -193,7 +204,7 @@ fun TodoItemRow(
                 Icon(
                     imageVector = Icons.Default.Delete,
                     tint = Color.Red,
-                    contentDescription = "刪除待辦事項"
+                    contentDescription = stringResource(Res.string.delete_todo_description)
                 )
             }
         }

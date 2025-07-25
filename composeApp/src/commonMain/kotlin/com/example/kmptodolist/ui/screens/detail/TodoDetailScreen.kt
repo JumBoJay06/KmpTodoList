@@ -12,6 +12,14 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import kmptodolist.composeapp.generated.resources.Res
+import kmptodolist.composeapp.generated.resources.back_button_description
+import kmptodolist.composeapp.generated.resources.confirm_button
+import kmptodolist.composeapp.generated.resources.content_placeholder
+import kmptodolist.composeapp.generated.resources.edit_todo_title
+import kmptodolist.composeapp.generated.resources.save_button
+import kmptodolist.composeapp.generated.resources.title_placeholder
+import org.jetbrains.compose.resources.stringResource
 import org.koin.core.parameter.parametersOf
 
 /**
@@ -37,12 +45,12 @@ class TodoDetailScreen(private val todoId: Long) : Screen {
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { Text("編輯待辦事項") },
+                    title = { Text(stringResource(Res.string.edit_todo_title)) },
                     navigationIcon = {
                         IconButton(onClick = { navigator.pop() }) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                contentDescription = "返回"
+                                contentDescription = stringResource(Res.string.back_button_description)
                             )
                         }
                     }
@@ -68,7 +76,7 @@ class TodoDetailScreen(private val todoId: Long) : Screen {
                     OutlinedTextField(
                         value = editedTitle,
                         onValueChange = viewModel::onTitleChange,
-                        label = { Text("標題") },
+                        label = { Text(stringResource(Res.string.title_placeholder)) },
                         modifier = Modifier.fillMaxWidth()
                     )
                     Spacer(modifier = Modifier.height(16.dp))
@@ -77,7 +85,7 @@ class TodoDetailScreen(private val todoId: Long) : Screen {
                     OutlinedTextField(
                         value = editedContent,
                         onValueChange = viewModel::onContentChange,
-                        label = { Text("內容") },
+                        label = { Text(stringResource(Res.string.content_placeholder)) },
                         modifier = Modifier.fillMaxWidth().weight(1f) // 讓它填滿剩餘空間
                     )
 
@@ -90,7 +98,7 @@ class TodoDetailScreen(private val todoId: Long) : Screen {
                         },
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        Text("儲存")
+                        Text(stringResource(Res.string.save_button))
                     }
                 }
             }

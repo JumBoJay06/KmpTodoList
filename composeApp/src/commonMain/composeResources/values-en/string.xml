@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">KmpTodoList</string>
+    <string name="todo_list_title">Todo List</string>
+    <string name="new_todo_placeholder">New Todo Item</string>
+    <string name="add_button">Add</string>
+    <string name="delete_dialog_title">Confirm Deletion</string>
+    <string name="delete_dialog_text">Are you sure you want to delete this todo?</string>
+    <string name="confirm_button">Confirm</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="no_todos_text">No todo items yet</string>
+    <string name="delete_todo_description">Delete todo item</string>
+    <string name="edit_todo_title">Edit Todo</string>
+    <string name="title_placeholder">Title</string>
+    <string name="content_placeholder">Content</string>
+    <string name="save_button">Save</string>
+    <string name="back_button_description">Back</string>
+</resources>

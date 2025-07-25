@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">KmpTodoList</string>
+    <string name="todo_list_title">待辦事項列表</string>
+    <string name="new_todo_placeholder">新的待辦事項</string>
+    <string name="add_button">新增</string>
+    <string name="delete_dialog_title">確認刪除</string>
+    <string name="delete_dialog_text">你確定要刪除這個待辦事項嗎？</string>
+    <string name="confirm_button">確認</string>
+    <string name="cancel_button">取消</string>
+    <string name="no_todos_text">目前沒有待辦事項</string>
+    <string name="delete_todo_description">刪除待辦事項</string>
+    <string name="edit_todo_title">編輯待辦事項</string>
+    <string name="title_placeholder">標題</string>
+    <string name="content_placeholder">內容</string>
+    <string name="save_button">儲存</string>
+    <string name="back_button_description">返回</string>
+</resources>
